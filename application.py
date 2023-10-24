@@ -10,6 +10,8 @@ WIDTH = 180
 HEIGHT = 180
 CHANNELS =1
 TOP_CLASSES = 4
+
+class_names = ['Atelectasis', 'Cardiomegaly', 'Consolidation', 'Edema', 'Effusion', 'Emphysema', 'Fibrosis', 'Hernia', 'Infiltration', 'Mass', 'No Finding', 'Nodule', 'Pleural_Thickening', 'Pneumonia', 'Pneumothorax']
 def load_image(image_path):
     img = plt.imread(image_path)
     img = cv2.resize(img, (WIDTH, HEIGHT))
@@ -30,8 +32,6 @@ def predict(image_path):
     return pred
 
 
-
-class_names = ['Atelectasis', 'Cardiomegaly', 'Consolidation', 'Edema', 'Effusion', 'Emphysema', 'Fibrosis', 'Hernia', 'Infiltration', 'Mass', 'No Finding', 'Nodule', 'Pleural_Thickening', 'Pneumonia', 'Pneumothorax']
 
 
 prediction = predict('./00000061_013.png')
