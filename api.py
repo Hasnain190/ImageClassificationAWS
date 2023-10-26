@@ -1,7 +1,8 @@
 from flask import Flask, request, jsonify
 app = Flask(__name__)
 from application import predict , TOP_CLASSES 
-
+from PIL import Image
+import io
 import base64
 
 @app.route('/predict', methods=['POST'])
@@ -12,8 +13,11 @@ def predict_api():
         try:
             data = request.get_json()
             image_data = data.get('image_data')
-            decoded_image = base64.b64decode(image_data)
-            prediction = predict(decoded_image)
+            
+           
+            img = convert_to_img(image_data)
+           
+            prediction = predict(img)
             top_4_classes = prediction.argsort()[0][-TOP_CLASSES:][::-1]
 
             # Convert the NumPy array to a Python list
@@ -25,6 +29,12 @@ def predict_api():
         
     else:
         return jsonify({'error': 'Unsupported Media Type'})
+
+
+def convert_to_img(image_data):
+    decoded_image = base64.b64decode(image_data)
+    image = Image.open(io.BytesIO(decoded_image))
+    return image
 
 
 @app.route("/")

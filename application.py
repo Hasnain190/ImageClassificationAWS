@@ -5,22 +5,25 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 import cv2
-
+from PIL import Image
 WIDTH = 180
 HEIGHT = 180
 CHANNELS =1
 TOP_CLASSES = 4
 
 class_names = ['Atelectasis', 'Cardiomegaly', 'Consolidation', 'Edema', 'Effusion', 'Emphysema', 'Fibrosis', 'Hernia', 'Infiltration', 'Mass', 'No Finding', 'Nodule', 'Pleural_Thickening', 'Pneumonia', 'Pneumothorax']
-def load_image(image_path):
-    img = plt.imread(image_path)
-    img = cv2.resize(img, (WIDTH, HEIGHT))
-    if len(img.shape) > 2: 
-        img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    img = img/ 255
-    img = np.expand_dims(img, axis=0)    
-    return img
+def load_image(image):
+    if isinstance(image, str):  # If 'image' is a file path
+        image = Image.open(image)
 
+    img = image.resize((WIDTH, HEIGHT))
+    if image.mode != 'L':  # Convert to grayscale if not already
+        img = img.convert('L')
+
+    img = np.array(img) / 255
+    img = np.expand_dims(img, axis=0)
+    
+    return img
     
 def predict(image_path):
     model = tf.keras.models.load_model('./my_model.h5')
