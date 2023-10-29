@@ -42,6 +42,7 @@ prediction = predict('./00000061_013.png')
 # Get the top 4 predicted classes
 top_4_classes = prediction.argsort()[0][-TOP_CLASSES:][::-1]
 
+# ? comment out later only for development
 # Print the top 4 predicted classes
 for class_index in top_4_classes:
     probable_disease = class_names[class_index]

@@ -39,7 +39,7 @@ def convert_to_img(image_data):
 
 @app.route("/")
 def hello_world():
-    return "<p>Hello, World!</p>"
+    return "<p>This api is live</p>"
     
 
 if __name__ == '__main__':
